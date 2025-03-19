@@ -192,7 +192,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _saveMovement,
-                child: Text(widget.movement == null ? 'Ajouter' : 'Modifier'),
+                child: Text(widget.movement == null ? 'Ajouter' : 'Modifier',style: TextStyle(color: Colors.white),),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
