@@ -39,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   void _loadInitialData() {
     setState(() {
       final box = Hive.box<StockMovement>('stockMovements');
- box.clear();
       _filteredMovements = box.values.toList(); // Reload the list
     });
   }
@@ -69,16 +68,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   // Calculate the data for the current page
-  List<StockMovement> _getPageItems() {
-    int startIndex = _currentPage * _itemsPerPage;
-    int endIndex = startIndex + _itemsPerPage;
-    return _filteredMovements.isEmpty
-        ? []
-        : _filteredMovements.sublist(
-            startIndex, 
-            endIndex > _filteredMovements.length ? _filteredMovements.length : endIndex,
-          );
+List<StockMovement> _getPageItems() {
+  int startIndex = _currentPage * _itemsPerPage;
+  int endIndex = startIndex + _itemsPerPage;
+  if (startIndex >= _filteredMovements.length) {
+    return []; // No items to display
   }
+  return _filteredMovements.sublist(
+    startIndex,
+    endIndex > _filteredMovements.length ? _filteredMovements.length : endIndex,
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -136,28 +136,30 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   final pageItems = _getPageItems();
 
                   return FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: Card(
-                      elevation: 12,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: DataTable(
-                            columnSpacing: 24,
-                            headingRowColor: MaterialStateColor.resolveWith((states) => Colors.deepPurple.shade100),
-                            headingRowHeight: 55,
-                            dataRowHeight: 70,
-                            columns: _buildColumns(),
-                            rows: pageItems.asMap().entries.map((entry) => _buildRow(entry.key, entry.value)).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+  opacity: _fadeAnimation,
+  child: Card(
+    elevation: 12,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),  // Adjust the padding as needed
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: DataTable(
+            columnSpacing: 24,
+            headingRowColor: MaterialStateColor.resolveWith((states) => Colors.deepPurple.shade100),
+            headingRowHeight: 55,
+            dataRowHeight: 70,
+            columns: _buildColumns(),
+            rows: pageItems.asMap().entries.map((entry) => _buildRow(entry.key, entry.value)).toList(),
+          ),
+        ),
+      ),
+    ),
+  ),
+); },
               ),
               _buildPaginationControls(),
             ],
@@ -240,45 +242,44 @@ Widget _buildActionButtons(int index, StockMovement movement) {
       _loadInitialData(); // Reload the data
     });
   }
+Widget _buildPaginationControls() {
+  int totalPages = (_filteredMovements.length / _itemsPerPage).ceil();
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        'Page ${_currentPage + 1} of $totalPages',
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      ),
+      Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: _currentPage > 0
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                  }
+                : null,
+          ),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward),
+            onPressed: _currentPage < totalPages - 1
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                  }
+                : null,
+          ),
+        ],
+      ),
+    ],
+  );
+}
 
-  Widget _buildPaginationControls() {
-    int totalPages = (_filteredMovements.length / _itemsPerPage).ceil();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Page ${_currentPage + 1} of $totalPages',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: _currentPage > 0
-                  ? () {
-                      setState(() {
-                        _currentPage--;
-                      });
-                    }
-                  : null,
-            ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward),
-              onPressed: _currentPage < totalPages - 1
-                  ? () {
-                      setState(() {
-                        _currentPage++;
-                      });
-                    }
-                  : null,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSearchBar() {
+ Widget _buildSearchBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(

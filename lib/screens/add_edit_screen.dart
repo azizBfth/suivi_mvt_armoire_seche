@@ -4,10 +4,10 @@ import '../database/stock_database.dart';
 import '../models/stock_model.dart';
 
 class AddEditScreen extends StatefulWidget {
-  final StockMovement? movement;  // The movement to edit, null for new item
-  final Function refreshCallback;  // Function to refresh data after adding/editing
+  final StockMovement? movement; // The movement to edit, null for new item
+  final Function refreshCallback; // Function to refresh data after adding/editing
 
-  AddEditScreen({this.movement, required this.refreshCallback});
+  const AddEditScreen({Key? key, this.movement, required this.refreshCallback}) : super(key: key);
 
   @override
   _AddEditScreenState createState() => _AddEditScreenState();
@@ -37,14 +37,14 @@ class _AddEditScreenState extends State<AddEditScreen> {
   }
 
   Future<void> _pickDateTime() async {
-    DateTime? pickedDate = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDateTime,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
     if (pickedDate != null) {
-      TimeOfDay? pickedTime = await showTimePicker(
+      final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
       );
@@ -64,26 +64,33 @@ class _AddEditScreenState extends State<AddEditScreen> {
 
   Future<void> _saveMovement() async {
     if (_formKey.currentState!.validate()) {
+      // If it's a new movement, generate the next ID
+      final int newId = widget.movement == null ? await StockDatabase.getNextMovementId() : widget.movement!.id;
+
       final newMovement = StockMovement(
-        id: widget.movement!.id, // Garde l'ID s'il existe, sinon auto-incrémenté
+        id: newId, // Use existing ID for editing or generate new ID for adding
         productName: _productController.text,
         movementType: _selectedMovement,
         storageLocation: _selectedLocation,
-        quantity: int.tryParse(_quantityController.text) ?? 0, // Safely parse the quantity
+        quantity: int.tryParse(_quantityController.text) ?? 0,
         operatorName: _operatorController.text,
         dateTime: _selectedDateTime,
       );
 
-      if (widget.movement != null) {
-        // Modifier le mouvement existant
-        await StockDatabase.editMovement(newMovement.id!, newMovement);
-      } else {
-        // Ajouter un nouveau mouvement (l'ID est auto-incrémenté)
-        await StockDatabase.addMovement(newMovement);
-      }
+      try {
+        if (widget.movement != null) {
+          // Edit the existing movement
+          await StockDatabase.editMovement(newMovement.id, newMovement);
+        } else {
+          // Add the new movement
+          await StockDatabase.addMovement(newMovement);
+        }
 
-      widget.refreshCallback(); // Rafraîchir la liste
-      Navigator.pop(context); // Retour à l'écran principal
+        widget.refreshCallback(); // Refresh the list of movements
+        Navigator.pop(context); // Go back to the main screen
+      } catch (e) {
+        print("Error saving movement: $e");
+      }
     }
   }
 
@@ -130,7 +137,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
               DropdownButtonFormField<String>(
                 value: _selectedMovement,
                 decoration: const InputDecoration(labelText: 'Type de mouvement'),
-                items: ['entrée', 'sortie']
+                items: const ['entrée', 'sortie']
                     .map((movement) => DropdownMenuItem<String>(
                           value: movement,
                           child: Text(movement),
@@ -146,7 +153,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
               DropdownButtonFormField<String>(
                 value: _selectedLocation,
                 decoration: const InputDecoration(labelText: 'Emplacement de stockage'),
-                items: ['AS-01', 'AS-02', 'AS-03']
+                items: const ['AS-01', 'AS-02', 'AS-03']
                     .map((location) => DropdownMenuItem<String>(
                           value: location,
                           child: Text(location),
@@ -174,7 +181,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
                 children: [
                   Text(
                     'Date et Heure: ${DateFormat('dd/MM/yyyy HH:mm').format(_selectedDateTime)}',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   IconButton(
                     icon: const Icon(Icons.calendar_today, color: Colors.black),
