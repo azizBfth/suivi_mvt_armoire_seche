@@ -1,0 +1,12 @@
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/suivi_mvt_armoire_seche
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
