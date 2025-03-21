@@ -254,7 +254,7 @@ Future<Uint8List> _generatePdfData() async {
             icon: const Icon(Icons.filter_list),
             onPressed: () {
               // Show the filter dialog to filter data
-              _showFilterDialog(context);
+            //  _showFilterDialog(context);
             },
           ),
 
@@ -263,7 +263,7 @@ Future<Uint8List> _generatePdfData() async {
             icon: const Icon(Icons.download_for_offline),
             onPressed: () {
               // Call the export to PDF function
-              exportToPdf(context);
+             // exportToPdf(context);
             },
           ),
         ],
@@ -499,7 +499,7 @@ Future<Uint8List> _generatePdfData() async {
       cells: [
         DataCell(Text(movement.productName)),
         DataCell(Text(_formatDateTime(movement.dateTime))),
-        DataCell(Text(movement.movementType)),
+        DataCell(Text(movement.movementType,style: TextStyle(color: Colors.white,backgroundColor: movement.movementType=="sortie"?Colors.red:Colors.green,),)),
         DataCell(Text(movement.storageLocation)),
         DataCell(Text(movement.operatorName)),
         DataCell(Text(movement.quantity.toString())),

@@ -1,0 +1,36 @@
+<variant
+    name="release"
+    package="com.example.suivi_mvt_armoire_seche"
+    minSdkVersion="21"
+    targetSdkVersion="35"
+    shrinking="true"
+    mergedManifest="/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/intermediates/merged_manifest/release/AndroidManifest.xml"
+    manifestMergeReport="/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/outputs/logs/manifest-merger-release-report.txt"
+    proguardFiles="/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-8.1.0:/home/aziz/flutter_linux_3.24.5-stable/flutter/packages/flutter_tools/gradle/flutter_proguard_rules.pro:proguard-rules.pro"
+    partialResultsDir="/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/intermediates/lint_vital_partial_results/release/out">
+  <buildFeatures
+      namespacing="REQUIRED"/>
+  <sourceProviders>
+    <sourceProvider
+        manifests="src/main/AndroidManifest.xml"
+        javaDirectories="src/main/java:src/release/java:src/main/kotlin:src/release/kotlin"
+        resDirectories="src/main/res:src/release/res"
+        assetsDirectories="src/main/assets:src/release/assets"/>
+  </sourceProviders>
+  <testSourceProviders>
+  </testSourceProviders>
+  <testFixturesSourceProviders>
+  </testFixturesSourceProviders>
+  <manifestPlaceholders>
+    <placeholder
+        name="applicationName"
+        value="android.app.Application" />
+  </manifestPlaceholders>
+  <mainArtifact
+      classOutputs="/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/intermediates/javac/release/classes:/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/tmp/kotlin-classes/release:/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/kotlinToolingMetadata:/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/R.jar"
+      applicationId="com.example.suivi_mvt_armoire_seche"
+      generatedSourceFolders="/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/generated/ap_generated_sources/release/out"
+      generatedResourceFolders="/home/aziz/emkaProjects/suivi_mvt_armoire_seche/build/app/generated/res/resValues/release"
+      desugaredMethodsFiles="/home/aziz/.gradle/caches/transforms-3/922f7fa658e8c6bd45dbddcedbc8388c/transformed/D8BackportedDesugaredMethods.txt">
+  </mainArtifact>
+</variant>
